@@ -1,0 +1,14 @@
+@use "variables" as *;
+
+// Responsive helpers
+@mixin tablet {
+  @media (min-width: $bp-tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $bp-desktop) {
+    @content;
+  }
+}
