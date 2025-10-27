@@ -1,13 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { List as ListType } from "@/types/board";
+import BoardContext from "@/contexts/boardContext";
 
 export default function List({ list }: { list: ListType }) {
+  const { dispatch } = useContext(BoardContext);
   const [title, setTitle] = useState(list.title);
   const [editing, setEditing] = useState(false);
 
   const handleSave = () => {
+    if (title.trim() === "") {
+      setTitle(list.title);
+      setEditing(false);
+      return;
+    }
+    dispatch({ type: "SET_LIST_TITLE", payload: { id: list.id, title } });
     setEditing(false);
   };
 
@@ -22,6 +30,7 @@ export default function List({ list }: { list: ListType }) {
             onBlur={handleSave}
             onKeyDown={(e) => e.key === "Enter" && handleSave()}
             autoFocus
+            placeholder="Enter List Title..."
           />
         ) : (
           <h3 className="list__title-text" onClick={() => setEditing(true)}>
