@@ -19,6 +19,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1rem;
+    position: relative;
   }
 
   &__title-text {
@@ -44,6 +46,55 @@
     border: 0;
     border-radius: 0.2rem;
     box-shadow: rgba(9, 30, 66, 0.25) 0 1px 0;
+  }
+
+  &__actions {
+    cursor: pointer;
+  }
+
+  &__actions-dropdown {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    width: 17rem;
+    background-color: rgb(244, 245, 247);
+    border-radius: 0.2rem;
+    box-shadow: rgba(0, 0, 0, 0.3) 0.125rem 0.125rem 0.5rem;
+    z-index: 10;
+
+    @include desktop {
+      left: calc(100% - 2rem);
+    }
+  }
+
+  &__actions-dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem;
+    border-bottom: 1px solid rgba(9, 30, 66, 0.13);
+  }
+
+  &__actions-dropdown-header-text {
+    color: rgb(107, 119, 140);
+  }
+
+  &__actions-dropdown-list {
+    list-style: none;
+    padding: 0.5rem 0;
+  }
+
+  &__actions-dropdown-item {
+    display: block;
+    padding: 0.3rem 0.75rem;
+    font-weight: 700;
+    transition: 0.2s ease-in;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--white);
+      background-color: var(--primary-bg-color);
+    }
   }
 
   &__cards {

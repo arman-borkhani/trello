@@ -4,7 +4,8 @@ type BoardState = BoardType;
 
 export type BoardAction =
   | { type: "SET_BOARD_TITLE"; payload: string }
-  | { type: "SET_LIST_TITLE"; payload: { id: number; title: string } };
+  | { type: "SET_LIST_TITLE"; payload: { id: number; title: string } }
+  | { type: "DELETE_LIST"; payload: number };
 
 function boardReducer(state: BoardState, action: BoardAction): BoardState {
   switch (action.type) {
@@ -18,6 +19,11 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
             ? { ...list, title: action.payload.title }
             : list
         ),
+      };
+    case "DELETE_LIST":
+      return {
+        ...state,
+        lists: state.lists.filter((list) => list.id !== action.payload),
       };
     default:
       return state;
