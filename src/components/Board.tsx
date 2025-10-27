@@ -10,6 +10,11 @@ export default function Board() {
   const [editing, setEditing] = useState(false);
 
   const handleSave = () => {
+    if (title.trim() === "") {
+      setTitle(board.title);
+      setEditing(false);
+      return;
+    }
     dispatch({ type: "SET_BOARD_TITLE", payload: title });
     setEditing(false);
   };
