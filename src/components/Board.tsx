@@ -1,6 +1,7 @@
 "use client";
 
 import { useContext, useState } from "react";
+import { BsX } from "react-icons/bs";
 import List from "./List";
 import BoardContext from "@/contexts/boardContext";
 
@@ -8,6 +9,8 @@ export default function Board() {
   const { board, dispatch } = useContext(BoardContext);
   const [title, setTitle] = useState(board.title);
   const [editing, setEditing] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [newListTitle, setNewListTitle] = useState("");
 
   const handleSave = () => {
     if (title.trim() === "") {
@@ -43,6 +46,49 @@ export default function Board() {
         {board.lists.map((list) => (
           <List key={list.id} list={list} />
         ))}
+
+        <div>
+          <div className="board__add-list">
+            {isFormVisible ? (
+              <form
+                action=""
+                className="board__add-list-form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const title = newListTitle.trim();
+                  if (!title) return;
+                  dispatch({ type: "ADD_LIST", payload: { title } });
+                  setNewListTitle("");
+                  setIsFormVisible(false);
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Enter a list title"
+                  value={newListTitle}
+                  onChange={(e) => setNewListTitle(e.target.value)}
+                />
+                <div className="board__add-list-form-actions">
+                  <button type="submit" className="button button--primary">
+                    Add List
+                  </button>
+                  <BsX
+                    className="cursor-pointer"
+                    size={24}
+                    onClick={() => setIsFormVisible(!isFormVisible)}
+                  />
+                </div>
+              </form>
+            ) : (
+              <button
+                className="button board__add-list-button"
+                onClick={() => setIsFormVisible(!isFormVisible)}
+              >
+                + Add another list
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

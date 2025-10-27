@@ -56,26 +56,38 @@
     overflow-x: auto;
   }
 
-  &__list-form-wrapper {
+  &__add-list {
     flex-shrink: 0;
     width: 16rem;
     margin: 0 0.5rem;
   }
 
-  &__list-form-trigger {
+  &__add-list-button {
     width: 100%;
     padding: 0.6rem;
     font-size: 1rem;
-    color: var(--white);
+    font-weight: normal;
     text-align: left;
-    border-radius: 0.2rem;
     background-color: rgba(0, 0, 0, 0.12);
-    transition: background-color 0.2s ease-in;
-    cursor: pointer;
-    border: none;
 
     &:hover {
       background: rgba(0, 0, 0, 0.2);
     }
+  }
+
+  &__add-list-form {
+    padding: 0.6rem;
+    background-color: var(--surface);
+    border-radius: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--gray);
+  }
+
+  &__add-list-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 }

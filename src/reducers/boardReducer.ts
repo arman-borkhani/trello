@@ -5,7 +5,8 @@ type BoardState = BoardType;
 export type BoardAction =
   | { type: "SET_BOARD_TITLE"; payload: string }
   | { type: "SET_LIST_TITLE"; payload: { id: number; title: string } }
-  | { type: "DELETE_LIST"; payload: number };
+  | { type: "DELETE_LIST"; payload: number }
+  | { type: "ADD_LIST"; payload: { title: string } };
 
 function boardReducer(state: BoardState, action: BoardAction): BoardState {
   switch (action.type) {
@@ -25,6 +26,13 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
         ...state,
         lists: state.lists.filter((list) => list.id !== action.payload),
       };
+    case "ADD_LIST": {
+      const nextId = state.lists.length
+        ? Math.max(...state.lists.map((l) => l.id)) + 1
+        : 1;
+      const newList = { id: nextId, title: action.payload.title };
+      return { ...state, lists: [...state.lists, newList] };
+    }
     default:
       return state;
   }

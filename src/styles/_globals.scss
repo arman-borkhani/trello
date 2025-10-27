@@ -14,3 +14,43 @@
 body {
   min-height: 100vh;
 }
+
+button {
+  border: none;
+  outline: none;
+}
+
+input {
+  max-width: 100%;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: var(--gray);
+  font-weight: normal;
+  line-height: 1rem;
+  letter-spacing: 0.5px;
+  background-color: var(--white);
+  border: 0;
+  border-radius: 0.2rem;
+  box-shadow: rgba(9, 30, 66, 0.25) 0 1px 0;
+}
+
+.button {
+  padding: 0.5rem 0.75rem;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: 0;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in;
+}
+
+.button--primary {
+  background-color: var(--primary-button-bg-color);
+  box-shadow: rgb(63, 111, 33) 0 1px 0 0;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
