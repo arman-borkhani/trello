@@ -4,6 +4,7 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { List as ListType } from "@/types/board";
 import BoardContext from "@/contexts/boardContext";
 import { BsThreeDots, BsX } from "react-icons/bs";
+import Card from "./Card";
 
 export default function List({ list }: { list: ListType }) {
   const { dispatch } = useContext(BoardContext);
@@ -86,7 +87,11 @@ export default function List({ list }: { list: ListType }) {
           )}
         </div>
       </header>
-      <div className="list__cards"></div>
+      <div className="list__cards">
+        {list.cards.map((card) => (
+          <Card key={card.id} card={card} listId={list.id} />
+        ))}
+      </div>
       <footer className="list__footer"></footer>
     </div>
   );

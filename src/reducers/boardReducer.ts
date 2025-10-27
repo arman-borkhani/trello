@@ -30,7 +30,7 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
       const nextId = state.lists.length
         ? Math.max(...state.lists.map((l) => l.id)) + 1
         : 1;
-      const newList = { id: nextId, title: action.payload.title };
+      const newList = { id: nextId, title: action.payload.title, cards: [] };
       return { ...state, lists: [...state.lists, newList] };
     }
     default:

@@ -9,9 +9,20 @@ export default function Home() {
   const [board, dispatch] = useReducer(boardReducer, {
     title: "Demo Board",
     lists: [
-      { id: 1, title: "Todo" },
-      { id: 2, title: "In Progress" },
-      { id: 3, title: "Done" },
+      {
+        id: 1,
+        title: "Todo",
+        cards: [
+          { id: 1, title: "Create interview Kanban", comments: [] },
+          { id: 2, title: "Review Drag & Drop", comments: [] },
+        ],
+      },
+      {
+        id: 2,
+        title: "In Progress",
+        cards: [{ id: 1, title: "Set up Next.js project", comments: [] }],
+      },
+      { id: 3, title: "Done", cards: [] },
     ],
   });
 

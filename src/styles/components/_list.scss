@@ -101,8 +101,10 @@
     min-height: 2rem;
     position: relative;
     padding: 0.5rem;
-    -moz-box-flex: 1;
     flex-grow: 1;
     overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
