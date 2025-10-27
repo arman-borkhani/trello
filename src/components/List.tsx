@@ -11,6 +11,8 @@ export default function List({ list }: { list: ListType }) {
   const [title, setTitle] = useState(list.title);
   const [editing, setEditing] = useState(false);
   const [actionDropdown, setActionDropdown] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [newCardTitle, setNewCardTitle] = useState("");
 
   // ref that wraps the trigger + dropdown so we can detect outside clicks
   const actionsRef = useRef<HTMLDivElement | null>(null);
@@ -92,7 +94,49 @@ export default function List({ list }: { list: ListType }) {
           <Card key={card.id} card={card} listId={list.id} />
         ))}
       </div>
-      <footer className="list__footer"></footer>
+      <footer className="list__footer">
+        {isFormVisible ? (
+          <form
+            action=""
+            className="list__add-card-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const title = newCardTitle.trim();
+              if (!title) return;
+              dispatch({
+                type: "ADD_CARD",
+                payload: { listId: list.id, title },
+              });
+              setNewCardTitle("");
+              setIsFormVisible(false);
+            }}
+          >
+            <textarea
+              placeholder="Enter card title"
+              value={newCardTitle}
+              onChange={(e) => setNewCardTitle(e.target.value)}
+              autoFocus
+            />
+            <div className="list__add-card-form-actions">
+              <button type="submit" className="button button--primary">
+                Create Card
+              </button>
+              <BsX
+                className="cursor-pointer"
+                size={24}
+                onClick={() => setIsFormVisible(false)}
+              />
+            </div>
+          </form>
+        ) : (
+          <button
+            className="button list__add-card-button"
+            onClick={() => setIsFormVisible(true)}
+          >
+            + Add another card
+          </button>
+        )}
+      </footer>
     </div>
   );
 }

@@ -105,6 +105,33 @@
     overflow: auto;
     display: flex;
     flex-direction: column;
+  }
+
+  &__add-card-button {
+    background-color: transparent;
+    text-align: left;
+    font-weight: normal;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: rgb(107, 119, 140);
+
+    &:hover {
+      color: rgb(23, 43, 77);
+      background-color: rgba(9, 30, 66, 0.13);
+    }
+  }
+
+  &__add-card-form {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__add-card-form-actions {
+    display: flex;
+    align-items: center;
     gap: 0.5rem;
   }
 }
