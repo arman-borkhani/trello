@@ -1,23 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import List from "./List";
-import { Board as BoardType } from "@/types/board";
+import BoardContext from "@/contexts/boardContext";
 
 export default function Board() {
-  const [board, setBoard] = useState<BoardType>({
-    title: "Demo Board",
-    lists: [
-      { id: 1, title: "Todo" },
-      { id: 2, title: "In Progress" },
-      { id: 3, title: "Done" },
-    ],
-  });
+  const { board, dispatch } = useContext(BoardContext);
   const [title, setTitle] = useState(board.title);
   const [editing, setEditing] = useState(false);
 
   const handleSave = () => {
-    setBoard({ ...board, title });
+    dispatch({ type: "SET_BOARD_TITLE", payload: title });
     setEditing(false);
   };
 
