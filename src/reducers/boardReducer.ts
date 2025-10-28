@@ -8,7 +8,11 @@ export type BoardAction =
   | { type: "DELETE_LIST"; payload: number }
   | { type: "ADD_LIST"; payload: { title: string } }
   | { type: "ADD_CARD"; payload: { listId: number; title: string } }
-  | { type: "CLEAR_LIST_CARDS"; payload: number };
+  | { type: "CLEAR_LIST_CARDS"; payload: number }
+  | {
+      type: "ADD_COMMENT";
+      payload: { listId: number; cardId: string; text: string };
+    };
 
 function boardReducer(state: BoardState, action: BoardAction): BoardState {
   switch (action.type) {
@@ -54,6 +58,29 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
           list.id === action.payload ? { ...list, cards: [] } : list
         ),
       };
+    case "ADD_COMMENT": {
+      const { listId, cardId, text } = action.payload;
+      const newComment = {
+        id: Date.now().toString(),
+        text,
+        createdAt: new Date().toISOString(),
+      };
+      return {
+        ...state,
+        lists: state.lists.map((list) =>
+          list.id === listId
+            ? {
+                ...list,
+                cards: list.cards.map((card) =>
+                  card.id === cardId
+                    ? { ...card, comments: [...card.comments, newComment] }
+                    : card
+                ),
+              }
+            : list
+        ),
+      };
+    }
     default:
       return state;
   }
