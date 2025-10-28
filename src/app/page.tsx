@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import Board from "@/components/Board";
 import boardReducer from "@/reducers/boardReducer";
 import BoardContext from "@/contexts/boardContext";
@@ -11,7 +11,11 @@ import {
   closestCenter,
   PointerSensor,
   DragEndEvent,
+  DragStartEvent,
+  DragOverlay,
 } from "@dnd-kit/core";
+import { createPortal } from "react-dom";
+import List from "@/components/List";
 
 export default function Home() {
   const [board, dispatch] = useReducer(boardReducer, {
@@ -33,6 +37,7 @@ export default function Home() {
       { id: 3, title: "Done", cards: [] },
     ],
   });
+  const [activeList, setActiveList] = useState(undefined);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -41,6 +46,15 @@ export default function Home() {
       },
     })
   );
+
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveList(undefined);
+
+    if (event.active.data.current?.type === "List") {
+      setActiveList(event.active.data.current.list);
+      return;
+    }
+  };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -57,10 +71,17 @@ export default function Home() {
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      onDragStart={handleDragStart}
     >
       <BoardContext.Provider value={{ board, dispatch }}>
         <Board />
       </BoardContext.Provider>
+
+      {typeof window !== "undefined" &&
+        createPortal(
+          <DragOverlay>{activeList && <List list={activeList} />}</DragOverlay>,
+          document.body
+        )}
     </DndContext>
   );
 }

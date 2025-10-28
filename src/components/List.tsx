@@ -15,8 +15,14 @@ export default function List({ list }: { list: ListType }) {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
 
-  const { setNodeRef, attributes, listeners, transform, transition } =
-    useSortable({ id: list.id, data: { type: "List", list } });
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: list.id, data: { type: "List", list } });
 
   const style = {
     transition,
@@ -58,7 +64,7 @@ export default function List({ list }: { list: ListType }) {
 
   return (
     <div
-      className="list"
+      className={isDragging ? "list invisible" : "list"}
       ref={setNodeRef}
       style={style}
       {...attributes}
