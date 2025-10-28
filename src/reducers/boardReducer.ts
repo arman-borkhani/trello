@@ -7,7 +7,8 @@ export type BoardAction =
   | { type: "SET_LIST_TITLE"; payload: { id: number; title: string } }
   | { type: "DELETE_LIST"; payload: number }
   | { type: "ADD_LIST"; payload: { title: string } }
-  | { type: "ADD_CARD"; payload: { listId: number; title: string } };
+  | { type: "ADD_CARD"; payload: { listId: number; title: string } }
+  | { type: "CLEAR_LIST_CARDS"; payload: number };
 
 function boardReducer(state: BoardState, action: BoardAction): BoardState {
   switch (action.type) {
@@ -46,6 +47,13 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
         ),
       };
     }
+    case "CLEAR_LIST_CARDS":
+      return {
+        ...state,
+        lists: state.lists.map((list) =>
+          list.id === action.payload ? { ...list, cards: [] } : list
+        ),
+      };
     default:
       return state;
   }

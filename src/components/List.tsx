@@ -84,6 +84,15 @@ export default function List({ list }: { list: ListType }) {
                 >
                   Delete List
                 </li>
+                <li
+                  className="list__actions-dropdown-item"
+                  onClick={() => {
+                    dispatch({ type: "CLEAR_LIST_CARDS", payload: list.id });
+                    setActionDropdown(false);
+                  }}
+                >
+                  Delete All Cards
+                </li>
               </ul>
             </div>
           )}
