@@ -12,7 +12,8 @@ export type BoardAction =
   | {
       type: "ADD_COMMENT";
       payload: { listId: number; cardId: string; text: string };
-    };
+    }
+  | { type: "REORDER_LISTS"; payload: { fromIndex: number; toIndex: number } };
 
 function boardReducer(state: BoardState, action: BoardAction): BoardState {
   switch (action.type) {
@@ -80,6 +81,13 @@ function boardReducer(state: BoardState, action: BoardAction): BoardState {
             : list
         ),
       };
+    }
+    case "REORDER_LISTS": {
+      const { fromIndex, toIndex } = action.payload;
+      const newLists = [...state.lists];
+      const [moved] = newLists.splice(fromIndex, 1);
+      newLists.splice(toIndex, 0, moved);
+      return { ...state, lists: newLists };
     }
     default:
       return state;

@@ -4,6 +4,14 @@ import { useReducer } from "react";
 import Board from "@/components/Board";
 import boardReducer from "@/reducers/boardReducer";
 import BoardContext from "@/contexts/boardContext";
+import {
+  DndContext,
+  useSensor,
+  useSensors,
+  closestCenter,
+  PointerSensor,
+  DragEndEvent,
+} from "@dnd-kit/core";
 
 export default function Home() {
   const [board, dispatch] = useReducer(boardReducer, {
@@ -26,9 +34,33 @@ export default function Home() {
     ],
   });
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+    if (active.id !== over.id) {
+      const fromIndex = board.lists.findIndex((t) => t.id === active.id);
+      const toIndex = board.lists.findIndex((t) => t.id === over.id);
+      dispatch({ type: "REORDER_LISTS", payload: { fromIndex, toIndex } });
+    }
+  };
+
   return (
-    <BoardContext.Provider value={{ board, dispatch }}>
-      <Board />
-    </BoardContext.Provider>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <BoardContext.Provider value={{ board, dispatch }}>
+        <Board />
+      </BoardContext.Provider>
+    </DndContext>
   );
 }

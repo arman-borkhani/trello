@@ -5,6 +5,7 @@ import { List as ListType } from "@/types/board";
 import BoardContext from "@/contexts/boardContext";
 import { BsThreeDots, BsX } from "react-icons/bs";
 import Card from "./Card";
+import { useSortable } from "@dnd-kit/sortable";
 
 export default function List({ list }: { list: ListType }) {
   const { dispatch } = useContext(BoardContext);
@@ -13,6 +14,16 @@ export default function List({ list }: { list: ListType }) {
   const [actionDropdown, setActionDropdown] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
+
+  const { setNodeRef, attributes, listeners, transform, transition } =
+    useSortable({ id: list.id, data: { type: "List", list } });
+
+  const style = {
+    transition,
+    transform: transform
+      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
+      : undefined,
+  };
 
   // ref that wraps the trigger + dropdown so we can detect outside clicks
   const actionsRef = useRef<HTMLDivElement | null>(null);
@@ -46,7 +57,13 @@ export default function List({ list }: { list: ListType }) {
   }, []);
 
   return (
-    <div className="list">
+    <div
+      className="list"
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <header className="list__header">
         {editing ? (
           <input
